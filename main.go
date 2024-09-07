@@ -6,10 +6,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"os/exec"
 	"strings"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 type URL struct {
@@ -22,17 +26,30 @@ type URL struct {
 // In-memory database to store original and short URLs
 var urlDB = make(map[string]URL)
 
+// init is invoked before main()
+func init() {
+	// loads values from .env into the system
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
+}
+
 func main() {
+	// Get the port from environment variables or use default port 8080
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	// Register the root handler and specific handlers for shortening and redirecting URLs
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/shorten", shortURLHandler)
 	http.HandleFunc("/redirect/", redirectURLHandler)
 	// Start the server on port 8080 and listen for incoming HTTP requests
-	fmt.Println("Server starting on port 8080")
-	err := http.ListenAndServe(":8080", nil)
+	fmt.Println("Server starting on port", port)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		// Log any error if the server fails to start
-		fmt.Println("Error starting server :", err)
+		log.Fatalf("Error starting server: %v", err)
 	}
 }
 
