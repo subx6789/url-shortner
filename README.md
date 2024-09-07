@@ -116,3 +116,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [Go Programming Language](https://go.dev/)
 - [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)
 - [MD5 Hashing](https://en.wikipedia.org/wiki/MD5)
+
+## Project deployed with Render
+
+**Link:** [URL-Shortner](https://url-shortner-4eya.onrender.com)
